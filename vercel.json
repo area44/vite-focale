@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "name": "@area44/vite-focale",
+  "framework": "vite",
+  "buildCommand": "tsc -b && vite build",
+  "outputDirectory": "dist",
+  "github": {
+    "enabled": true,
+    "autoJobCancelation": true
+  }
+}
