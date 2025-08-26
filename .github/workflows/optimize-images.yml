@@ -18,7 +18,7 @@ jobs:
         uses: area44/workflows/optimize-images@optimize-images
 
       - name: Commit optimized files
-        if: steps.optimize.outputs.optimizedCount != '0'
+        if: ${{ github.event_name == 'push' && steps.optimize.outputs.optimizedCount != '0' }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -27,19 +27,19 @@ jobs:
           git push
 
       - name: Post optimization report
-        if: github.event_name == 'pull_request'
+        if: ${{ github.event_name == 'pull_request' }}
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             **Image Optimization Report**
 
-            - Optimized: **${{ steps.optimize.outputs.optimizedCount || '0' }}**
-            - Skipped: **${{ steps.optimize.outputs.skippedCount || '0' }}**
-            - Total Saved: **${{ steps.optimize.outputs.totalSaved || '0.0' }} KB**
+            - Optimized: **${{ steps.optimize.outputs.optimizedCount }}**
+            - Skipped: **${{ steps.optimize.outputs.skippedCount }}**
+            - Total Saved: **${{ steps.optimize.outputs.totalSaved }} KB**
 
             ### File Breakdown
             ```
-            ${{ steps.optimize.outputs.details || 'No images found' }}
+            ${{ steps.optimize.outputs.details }}
             ```
           edit-mode: replace
