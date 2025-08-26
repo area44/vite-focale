@@ -17,7 +17,7 @@ jobs:
 
       - name: Optimize images
         id: optimize
-        uses: area44/workflows/optimize-images@improve
+        uses: area44/workflows/optimize-images@main
 
       - name: Commit optimized images
         if: ${{ steps.optimize.outputs.optimizedCount != '0' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) }}
@@ -57,3 +57,4 @@ jobs:
             ${{ steps.optimize.outputs.details || 'No images found' }}
             ```
           edit-mode: replace
+
