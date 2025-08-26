@@ -34,12 +34,12 @@ jobs:
           body: |
             **Image Optimization Report**
 
-            - Optimized: **${{ steps.optimize.outputs.optimizedCount }}**
-            - Skipped: **${{ steps.optimize.outputs.skippedCount }}**
-            - Total Saved: **${{ steps.optimize.outputs.totalSaved }} KB**
+            - Optimized: **${{ steps.optimize.outputs.optimizedCount || '0' }}**
+            - Skipped: **${{ steps.optimize.outputs.skippedCount || '0' }}**
+            - Total Saved: **${{ steps.optimize.outputs.totalSaved || '0.0' }} KB**
 
             ### File Breakdown
             ```
-            ${{ steps.optimize.outputs.details }}
+            ${{ steps.optimize.outputs.details || 'No images found' }}
             ```
           edit-mode: replace
