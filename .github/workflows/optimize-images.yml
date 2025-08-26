@@ -15,7 +15,7 @@ jobs:
 
       - name: Optimize images
         id: optimize
-        uses: area44/workflows/optimize-images@main
+        uses: area44/workflows/optimize-images@optimize-images
 
       - name: Commit optimized files
         if: steps.optimize.outputs.optimizedCount != '0'
@@ -30,18 +30,16 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           issue-number: ${{ github.event.pull_request.number }}
-          identifier: image-optimization-report
-          edit-mode: replace
           body: |
             **Image Optimization Report**
 
-            - Optimized: **${{ steps.optimize.outputs.optimizedCount }}**
-            - Skipped: **${{ steps.optimize.outputs.skippedCount }}**
-            - Total Saved: **${{ steps.optimize.outputs.totalSaved }} KB**
+            - Optimized: **${{ steps.optimize.outputs.optimizedCount || '0' }}**
+            - Skipped: **${{ steps.optimize.outputs.skippedCount || '0' }}**
+            - Total Saved: **${{ steps.optimize.outputs.totalSaved || '0.0' }} KB**
 
             ### File Breakdown
             ```
-            ${{ steps.optimize.outputs.details }}
+            ${{ steps.optimize.outputs.details || 'No images found' }}
             ```
+          edit-mode: replace
