@@ -30,12 +30,19 @@ jobs:
           git commit -m "chore: optimize images"
           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.head_ref || github.ref_name }}
 
-      - name: Post optimization report
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: peter-evans/create-or-update-comment@v4
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-id: ${{ github.event.comment.id }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Image Optimization Report
+
+      - name: Create or update comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             **Image Optimization Report**
 
