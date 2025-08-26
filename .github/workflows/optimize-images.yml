@@ -35,6 +35,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ github.event.comment.id }}
           body: |
             **Image Optimization Report**
 
@@ -47,4 +48,3 @@ jobs:
             ${{ steps.optimize.outputs.details || 'No images found' }}
             ```
           edit-mode: replace
-          identifier: image-optimization-report
