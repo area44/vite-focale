@@ -15,9 +15,6 @@ jobs:
         with:
           ref: ${{ github.head_ref || github.ref_name }}
 
-      - name: Fetch main branch
-        run: git fetch origin main
-
       - name: Optimize images
         id: optimize
         uses: area44/workflows/optimize-images@improve
