@@ -19,7 +19,7 @@ jobs:
         id: optimize
         uses: area44/workflows/optimize-images@improve
 
-      - name: Commit optimized files
+      - name: Commit optimized images
         if: ${{ steps.optimize.outputs.optimizedCount != '0' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
